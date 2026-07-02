@@ -45,6 +45,8 @@ Výsledkem je čitelný čas ve formátu:
 
 02.07.2026 16:35:38
 
+![Timestamp debugging](screenshots/timestamp-debugging.png)
+
 ## Testovací vstup
 
 ```json
