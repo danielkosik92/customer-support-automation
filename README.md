@@ -45,6 +45,8 @@ Výsledkem je čitelný čas ve formátu:
 
 02.07.2026 16:35:38
 
+## Chybné výsledky
+
 ![Timestamp debugging](screenshots/timestamp-debugging.png)
 
 ## Testovací vstup
