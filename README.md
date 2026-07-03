@@ -67,6 +67,10 @@ Poté mi čas spadal automaticky do UTC, protože jsem použil formát - {{forma
 
 ![Timestamp debugging](screenshots/timestamp-debugging.png)
 
+## Update – validace a routing
+
+Automatizace byla rozšířena o router, validaci povinných údajů a fallback větev pro chybné požadavky.
+
 ## Testovací vstup
 
 ```json
