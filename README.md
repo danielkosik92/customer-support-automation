@@ -81,3 +81,29 @@ Automatizace byla rozšířena o router, validaci povinných údajů a fallback 
   "category": "reklamace",
   "message": "Dorucena kniha ma poskozeny obal."
 }
+
+## Testovací vstupy
+
+### Platný požadavek
+
+```json
+{
+  "name": "Jan Novak",
+  "email": "jan.novak@example.com",
+  "order_number": "ORD-123456",
+  "category": "reklamace",
+  "message": "Dorucena kniha ma poskozeny obal."
+}
+
+```
+### Neplatný požadavek
+
+```json
+{
+  "name": "Jan Novak",
+  "email": "jan.novakexample.com",
+  "order_number": "ORD-123456",
+  "category": "reklamace",
+  "message": "Dorucena kniha ma poskozeny obal."
+}
+```
