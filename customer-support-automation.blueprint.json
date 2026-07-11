@@ -1,0 +1,1109 @@
+{
+  "name": "Customer Support Automation",
+  "flow": [
+    {
+      "id": 2,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "restore": {
+          "parameters": {
+            "hook": {
+              "data": {
+                "editable": "true"
+              },
+              "label": "customer-support-intake"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "hook",
+            "type": "hook:gateway-webhook",
+            "label": "Webhook",
+            "required": true
+          },
+          {
+            "name": "maxResults",
+            "type": "number",
+            "label": "Maximum number of results"
+          }
+        ],
+        "interface": [
+          {
+            "name": "name",
+            "type": "text"
+          },
+          {
+            "name": "email",
+            "type": "text"
+          },
+          {
+            "name": "order_number",
+            "type": "text"
+          },
+          {
+            "name": "category",
+            "type": "text"
+          },
+          {
+            "name": "message",
+            "type": "text"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {
+        "else": 1
+      },
+      "filter": null,
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 3,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": 0
+              },
+              "filter": {
+                "name": "Valid request",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{2.name}}",
+                      "b": "",
+                      "o": "text:notequal"
+                    },
+                    {
+                      "a": "{{2.email}}",
+                      "b": "@",
+                      "o": "text:contain"
+                    },
+                    {
+                      "a": "{{2.order_number}}",
+                      "b": "",
+                      "o": "text:notequal"
+                    },
+                    {
+                      "a": "{{2.message}}",
+                      "b": "",
+                      "o": "text:notequal"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"DD.MM.YYYY HH:mm:ss\"; \"Europe/Prague\")}}",
+                  "1": "{{2.name}}",
+                  "2": "{{2.email}}",
+                  "3": "{{2.order_number}}",
+                  "4": "{{2.category}}",
+                  "5": "{{2.message}}",
+                  "6": "New"
+                },
+                "sheetId": "Valid Requests",
+                "spreadsheetId": "REPLACE_WITH_SPREADSHEET_ID",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertUnformatted": false
+              },
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": -300
+                },
+                "restore": {
+                  "expect": {
+                    "from": {
+                      "label": "My Drive"
+                    },
+                    "mode": {
+                      "label": "Search by path"
+                    },
+                    "sheetId": {
+                      "label": "Valid Requests"
+                    },
+                    "spreadsheetId": {
+                      "path": [
+                        "Customer Support Requests"
+                      ]
+                    },
+                    "includesHeaders": {
+                      "label": "Yes"
+                    },
+                    "insertDataOption": {
+                      "mode": "chose",
+                      "label": "Insert rows"
+                    },
+                    "useColumnHeaders": {
+                      "label": "No",
+                      "nested": [
+                        {
+                          "name": "values",
+                          "spec": [
+                            {
+                              "name": "0",
+                              "type": "text",
+                              "label": "Timestamp (A)"
+                            },
+                            {
+                              "name": "1",
+                              "type": "text",
+                              "label": "Name (B)"
+                            },
+                            {
+                              "name": "2",
+                              "type": "text",
+                              "label": "Email (C)"
+                            },
+                            {
+                              "name": "3",
+                              "type": "text",
+                              "label": "Order Number (D)"
+                            },
+                            {
+                              "name": "4",
+                              "type": "text",
+                              "label": "Category (E)"
+                            },
+                            {
+                              "name": "5",
+                              "type": "text",
+                              "label": "Message (F)"
+                            },
+                            {
+                              "name": "6",
+                              "type": "text",
+                              "label": "Status (G)"
+                            },
+                            {
+                              "name": "7",
+                              "type": "text",
+                              "label": "(H)"
+                            },
+                            {
+                              "name": "8",
+                              "type": "text",
+                              "label": "(I)"
+                            },
+                            {
+                              "name": "9",
+                              "type": "text",
+                              "label": "(J)"
+                            },
+                            {
+                              "name": "10",
+                              "type": "text",
+                              "label": "(K)"
+                            },
+                            {
+                              "name": "11",
+                              "type": "text",
+                              "label": "(L)"
+                            },
+                            {
+                              "name": "12",
+                              "type": "text",
+                              "label": "(M)"
+                            },
+                            {
+                              "name": "13",
+                              "type": "text",
+                              "label": "(N)"
+                            },
+                            {
+                              "name": "14",
+                              "type": "text",
+                              "label": "(O)"
+                            },
+                            {
+                              "name": "15",
+                              "type": "text",
+                              "label": "(P)"
+                            },
+                            {
+                              "name": "16",
+                              "type": "text",
+                              "label": "(Q)"
+                            },
+                            {
+                              "name": "17",
+                              "type": "text",
+                              "label": "(R)"
+                            },
+                            {
+                              "name": "18",
+                              "type": "text",
+                              "label": "(S)"
+                            },
+                            {
+                              "name": "19",
+                              "type": "text",
+                              "label": "(T)"
+                            },
+                            {
+                              "name": "20",
+                              "type": "text",
+                              "label": "(U)"
+                            },
+                            {
+                              "name": "21",
+                              "type": "text",
+                              "label": "(V)"
+                            },
+                            {
+                              "name": "22",
+                              "type": "text",
+                              "label": "(W)"
+                            },
+                            {
+                              "name": "23",
+                              "type": "text",
+                              "label": "(X)"
+                            },
+                            {
+                              "name": "24",
+                              "type": "text",
+                              "label": "(Y)"
+                            },
+                            {
+                              "name": "25",
+                              "type": "text",
+                              "label": "(Z)"
+                            }
+                          ],
+                          "type": "collection",
+                          "label": "Values in columns",
+                          "metadata": [
+                            [
+                              [
+                                "Timestamp",
+                                "Name",
+                                "Email",
+                                "Order Number",
+                                "Category",
+                                "Message",
+                                "Status"
+                              ]
+                            ]
+                          ]
+                        }
+                      ]
+                    },
+                    "valueInputOption": {
+                      "mode": "chose",
+                      "label": "User entered"
+                    },
+                    "insertUnformatted": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "data": {
+                        "scoped": "false",
+                        "connection": "google"
+                      },
+                      "label": "Google connection (configure after import)"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "expect": [
+                  {
+                    "name": "mode",
+                    "type": "select",
+                    "label": "Search Method",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "select",
+                        "fromAll",
+                        "map"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertUnformatted",
+                    "type": "boolean",
+                    "label": "Unformatted",
+                    "required": true
+                  },
+                  {
+                    "name": "valueInputOption",
+                    "type": "select",
+                    "label": "Value input option",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "USER_ENTERED",
+                        "RAW"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertDataOption",
+                    "type": "select",
+                    "label": "Insert data option",
+                    "validate": {
+                      "enum": [
+                        "INSERT_ROWS",
+                        "OVERWRITE"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "Drive",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "drive",
+                        "share",
+                        "team"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "spreadsheetId",
+                    "type": "file",
+                    "label": "Spreadsheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "sheetId",
+                    "type": "select",
+                    "label": "Sheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "includesHeaders",
+                    "type": "select",
+                    "label": "Table contains headers",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "useColumnHeaders",
+                    "type": "select",
+                    "label": "Use column headers as IDs of the columns",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "values",
+                    "spec": [
+                      {
+                        "name": "0",
+                        "type": "text",
+                        "label": "Timestamp (A)"
+                      },
+                      {
+                        "name": "1",
+                        "type": "text",
+                        "label": "Name (B)"
+                      },
+                      {
+                        "name": "2",
+                        "type": "text",
+                        "label": "Email (C)"
+                      },
+                      {
+                        "name": "3",
+                        "type": "text",
+                        "label": "Order Number (D)"
+                      },
+                      {
+                        "name": "4",
+                        "type": "text",
+                        "label": "Category (E)"
+                      },
+                      {
+                        "name": "5",
+                        "type": "text",
+                        "label": "Message (F)"
+                      },
+                      {
+                        "name": "6",
+                        "type": "text",
+                        "label": "Status (G)"
+                      },
+                      {
+                        "name": "7",
+                        "type": "text",
+                        "label": "(H)"
+                      },
+                      {
+                        "name": "8",
+                        "type": "text",
+                        "label": "(I)"
+                      },
+                      {
+                        "name": "9",
+                        "type": "text",
+                        "label": "(J)"
+                      },
+                      {
+                        "name": "10",
+                        "type": "text",
+                        "label": "(K)"
+                      },
+                      {
+                        "name": "11",
+                        "type": "text",
+                        "label": "(L)"
+                      },
+                      {
+                        "name": "12",
+                        "type": "text",
+                        "label": "(M)"
+                      },
+                      {
+                        "name": "13",
+                        "type": "text",
+                        "label": "(N)"
+                      },
+                      {
+                        "name": "14",
+                        "type": "text",
+                        "label": "(O)"
+                      },
+                      {
+                        "name": "15",
+                        "type": "text",
+                        "label": "(P)"
+                      },
+                      {
+                        "name": "16",
+                        "type": "text",
+                        "label": "(Q)"
+                      },
+                      {
+                        "name": "17",
+                        "type": "text",
+                        "label": "(R)"
+                      },
+                      {
+                        "name": "18",
+                        "type": "text",
+                        "label": "(S)"
+                      },
+                      {
+                        "name": "19",
+                        "type": "text",
+                        "label": "(T)"
+                      },
+                      {
+                        "name": "20",
+                        "type": "text",
+                        "label": "(U)"
+                      },
+                      {
+                        "name": "21",
+                        "type": "text",
+                        "label": "(V)"
+                      },
+                      {
+                        "name": "22",
+                        "type": "text",
+                        "label": "(W)"
+                      },
+                      {
+                        "name": "23",
+                        "type": "text",
+                        "label": "(X)"
+                      },
+                      {
+                        "name": "24",
+                        "type": "text",
+                        "label": "(Y)"
+                      },
+                      {
+                        "name": "25",
+                        "type": "text",
+                        "label": "(Z)"
+                      }
+                    ],
+                    "type": "collection",
+                    "label": "Values in columns",
+                    "metadata": [
+                      [
+                        [
+                          "Timestamp",
+                          "Name",
+                          "Email",
+                          "Order Number",
+                          "Category",
+                          "Message",
+                          "Status"
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 6,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": 0
+              },
+              "filter": {
+                "name": "Invalid request",
+                "conditions": []
+              },
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{formatDate(now; \"DD.MM.YYYY HH:mm:ss\"; \"Europe/Prague\")}}",
+                  "1": "{{2.name}}",
+                  "2": "{{2.email}}",
+                  "3": "{{2.order_number}}",
+                  "4": "{{2.category}}",
+                  "5": "{{2.message}}",
+                  "6": "Missing or invalid required data",
+                  "7": "Needs review"
+                },
+                "sheetId": "Invalid Requests",
+                "spreadsheetId": "REPLACE_WITH_SPREADSHEET_ID",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertUnformatted": false
+              },
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 0
+                },
+                "restore": {
+                  "expect": {
+                    "from": {
+                      "label": "My Drive"
+                    },
+                    "mode": {
+                      "label": "Search by path"
+                    },
+                    "sheetId": {
+                      "label": "Invalid Requests"
+                    },
+                    "spreadsheetId": {
+                      "path": [
+                        "Customer Support Requests"
+                      ]
+                    },
+                    "includesHeaders": {
+                      "label": "Yes"
+                    },
+                    "insertDataOption": {
+                      "mode": "chose",
+                      "label": "Insert rows"
+                    },
+                    "useColumnHeaders": {
+                      "label": "No",
+                      "nested": [
+                        {
+                          "name": "values",
+                          "spec": [
+                            {
+                              "name": "0",
+                              "type": "text",
+                              "label": "Timestamp (A)"
+                            },
+                            {
+                              "name": "1",
+                              "type": "text",
+                              "label": "Name  (B)"
+                            },
+                            {
+                              "name": "2",
+                              "type": "text",
+                              "label": "Email  (C)"
+                            },
+                            {
+                              "name": "3",
+                              "type": "text",
+                              "label": "Order Number  (D)"
+                            },
+                            {
+                              "name": "4",
+                              "type": "text",
+                              "label": "Category (E)"
+                            },
+                            {
+                              "name": "5",
+                              "type": "text",
+                              "label": "Message  (F)"
+                            },
+                            {
+                              "name": "6",
+                              "type": "text",
+                              "label": "Error Reason  (G)"
+                            },
+                            {
+                              "name": "7",
+                              "type": "text",
+                              "label": "Status (H)"
+                            },
+                            {
+                              "name": "8",
+                              "type": "text",
+                              "label": "(I)"
+                            },
+                            {
+                              "name": "9",
+                              "type": "text",
+                              "label": "(J)"
+                            },
+                            {
+                              "name": "10",
+                              "type": "text",
+                              "label": "(K)"
+                            },
+                            {
+                              "name": "11",
+                              "type": "text",
+                              "label": "(L)"
+                            },
+                            {
+                              "name": "12",
+                              "type": "text",
+                              "label": "(M)"
+                            },
+                            {
+                              "name": "13",
+                              "type": "text",
+                              "label": "(N)"
+                            },
+                            {
+                              "name": "14",
+                              "type": "text",
+                              "label": "(O)"
+                            },
+                            {
+                              "name": "15",
+                              "type": "text",
+                              "label": "(P)"
+                            },
+                            {
+                              "name": "16",
+                              "type": "text",
+                              "label": "(Q)"
+                            },
+                            {
+                              "name": "17",
+                              "type": "text",
+                              "label": "(R)"
+                            },
+                            {
+                              "name": "18",
+                              "type": "text",
+                              "label": "(S)"
+                            },
+                            {
+                              "name": "19",
+                              "type": "text",
+                              "label": "(T)"
+                            },
+                            {
+                              "name": "20",
+                              "type": "text",
+                              "label": "(U)"
+                            },
+                            {
+                              "name": "21",
+                              "type": "text",
+                              "label": "(V)"
+                            },
+                            {
+                              "name": "22",
+                              "type": "text",
+                              "label": "(W)"
+                            },
+                            {
+                              "name": "23",
+                              "type": "text",
+                              "label": "(X)"
+                            },
+                            {
+                              "name": "24",
+                              "type": "text",
+                              "label": "(Y)"
+                            },
+                            {
+                              "name": "25",
+                              "type": "text",
+                              "label": "(Z)"
+                            }
+                          ],
+                          "type": "collection",
+                          "label": "Values in columns",
+                          "metadata": [
+                            [
+                              [
+                                "Timestamp",
+                                "Name ",
+                                "Email ",
+                                "Order Number ",
+                                "Category",
+                                "Message ",
+                                "Error Reason ",
+                                "Status"
+                              ]
+                            ]
+                          ]
+                        }
+                      ]
+                    },
+                    "valueInputOption": {
+                      "mode": "chose",
+                      "label": "User entered"
+                    },
+                    "insertUnformatted": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "data": {
+                        "scoped": "false",
+                        "connection": "google"
+                      },
+                      "label": "Google connection (configure after import)"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "expect": [
+                  {
+                    "name": "mode",
+                    "type": "select",
+                    "label": "Search Method",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "select",
+                        "fromAll",
+                        "map"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertUnformatted",
+                    "type": "boolean",
+                    "label": "Unformatted",
+                    "required": true
+                  },
+                  {
+                    "name": "valueInputOption",
+                    "type": "select",
+                    "label": "Value input option",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "USER_ENTERED",
+                        "RAW"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertDataOption",
+                    "type": "select",
+                    "label": "Insert data option",
+                    "validate": {
+                      "enum": [
+                        "INSERT_ROWS",
+                        "OVERWRITE"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "Drive",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "drive",
+                        "share",
+                        "team"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "spreadsheetId",
+                    "type": "file",
+                    "label": "Spreadsheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "sheetId",
+                    "type": "select",
+                    "label": "Sheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "includesHeaders",
+                    "type": "select",
+                    "label": "Table contains headers",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "useColumnHeaders",
+                    "type": "select",
+                    "label": "Use column headers as IDs of the columns",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "values",
+                    "spec": [
+                      {
+                        "name": "0",
+                        "type": "text",
+                        "label": "Timestamp (A)"
+                      },
+                      {
+                        "name": "1",
+                        "type": "text",
+                        "label": "Name  (B)"
+                      },
+                      {
+                        "name": "2",
+                        "type": "text",
+                        "label": "Email  (C)"
+                      },
+                      {
+                        "name": "3",
+                        "type": "text",
+                        "label": "Order Number  (D)"
+                      },
+                      {
+                        "name": "4",
+                        "type": "text",
+                        "label": "Category (E)"
+                      },
+                      {
+                        "name": "5",
+                        "type": "text",
+                        "label": "Message  (F)"
+                      },
+                      {
+                        "name": "6",
+                        "type": "text",
+                        "label": "Error Reason  (G)"
+                      },
+                      {
+                        "name": "7",
+                        "type": "text",
+                        "label": "Status (H)"
+                      },
+                      {
+                        "name": "8",
+                        "type": "text",
+                        "label": "(I)"
+                      },
+                      {
+                        "name": "9",
+                        "type": "text",
+                        "label": "(J)"
+                      },
+                      {
+                        "name": "10",
+                        "type": "text",
+                        "label": "(K)"
+                      },
+                      {
+                        "name": "11",
+                        "type": "text",
+                        "label": "(L)"
+                      },
+                      {
+                        "name": "12",
+                        "type": "text",
+                        "label": "(M)"
+                      },
+                      {
+                        "name": "13",
+                        "type": "text",
+                        "label": "(N)"
+                      },
+                      {
+                        "name": "14",
+                        "type": "text",
+                        "label": "(O)"
+                      },
+                      {
+                        "name": "15",
+                        "type": "text",
+                        "label": "(P)"
+                      },
+                      {
+                        "name": "16",
+                        "type": "text",
+                        "label": "(Q)"
+                      },
+                      {
+                        "name": "17",
+                        "type": "text",
+                        "label": "(R)"
+                      },
+                      {
+                        "name": "18",
+                        "type": "text",
+                        "label": "(S)"
+                      },
+                      {
+                        "name": "19",
+                        "type": "text",
+                        "label": "(T)"
+                      },
+                      {
+                        "name": "20",
+                        "type": "text",
+                        "label": "(U)"
+                      },
+                      {
+                        "name": "21",
+                        "type": "text",
+                        "label": "(V)"
+                      },
+                      {
+                        "name": "22",
+                        "type": "text",
+                        "label": "(W)"
+                      },
+                      {
+                        "name": "23",
+                        "type": "text",
+                        "label": "(X)"
+                      },
+                      {
+                        "name": "24",
+                        "type": "text",
+                        "label": "(Y)"
+                      },
+                      {
+                        "name": "25",
+                        "type": "text",
+                        "label": "(Z)"
+                      }
+                    ],
+                    "type": "collection",
+                    "label": "Values in columns",
+                    "metadata": [
+                      [
+                        [
+                          "Timestamp",
+                          "Name ",
+                          "Email ",
+                          "Order Number ",
+                          "Category",
+                          "Message ",
+                          "Error Reason ",
+                          "Status"
+                        ]
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "eu1.make.com",
+    "notes": []
+  }
+}
